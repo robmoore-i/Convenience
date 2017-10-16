@@ -4,7 +4,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-public class ConveniencerTest {
+public class ArrayAdditionTest {
     private Conveniencer c = new Conveniencer();
 
     @Test
