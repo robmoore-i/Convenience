@@ -4,7 +4,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
 public class ArrayMultiplyTest {
-    private Conveniencer c = new Conveniencer();
+    private NumericConveniencer c = new Conveniencer().numbers;
 
     @Test
     public void canTimesScalarByScalar() {
