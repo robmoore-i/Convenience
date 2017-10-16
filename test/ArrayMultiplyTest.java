@@ -13,7 +13,7 @@ public class ArrayMultiplyTest {
 
     @Test
     public void canTimesScalarByVector() {
-        assertThat(c.times.scalar_vector(5, new double[]{3, 4, 5}), equalTo(new double[]{15, 20, 25}));
+        assertThat(c.times.scalar_vector(6, new double[]{3, 4, 5}), equalTo(new double[]{18, 24, 30}));
     }
 
     @Test
