@@ -10,4 +10,9 @@ public class ArrayJoinTest {
     public void canJoinTwoStrings() {
         assertThat(c.join.apply("hello, ", "conveniencer"), equalTo("hello, conveniencer"));
     }
+
+    @Test
+    public void canEachBothJoin() throws LengthError {
+        assertThat(c.join.eachBoth(new String[]{"hello, ", "ayy ", "0"}, new String[]{"conveniencer", "lmao", "0"}), equalTo(new String[]{"hello, conveniencer", "ayy lmao", "00"}));
+    }
 }
