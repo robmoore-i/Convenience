@@ -8,19 +8,15 @@ public abstract class Dyadic {
     public abstract double[] vector_scalar(double[] left, double right);
     public abstract double[] vector_vector(double[] left, double[] right) throws LengthError;
 
-    public double[] eachBoth(double[] left, double[] right, DoubleBinaryOperator operator) throws LengthError {
+    public double[] eachBoth(double[] left, double[] right) throws LengthError {
         if (left.length != right.length) {
             throw new LengthError();
         }
         double[] result = new double[left.length];
         for (int i = 0; i < left.length; i++) {
-            result[i] = operator.applyAsDouble(left[i], right[i]);
+            result[i] = scalar_scalar(left[i], right[i]);
         }
         return result;
-    }
-
-    public double[] mapUnary(double[] right, DoubleUnaryOperator operator) {
-        return Arrays.stream(right).map(operator).toArray();
     }
 
     public static Dyadic commutative(DoubleBinaryOperator operator) {
@@ -41,7 +37,7 @@ public abstract class Dyadic {
 
             @Override
             public double[] vector_vector(double[] left, double[] right) throws LengthError {
-                return eachBoth(left, right, operator);
+                return eachBoth(left, right);
             }
         };
     }
@@ -55,7 +51,7 @@ public abstract class Dyadic {
 
             @Override
             public double[] scalar_vector(double left, double[] right) {
-                return inverse.scalar_vector(left, mapUnary(right, operator));
+                return inverse.scalar_vector(left, Arrays.stream(right).map(operator).toArray());
             }
 
             @Override
@@ -65,7 +61,7 @@ public abstract class Dyadic {
 
             @Override
             public double[] vector_vector(double[] left, double[] right) throws LengthError {
-                return inverse.vector_vector(left, mapUnary(right, operator));
+                return inverse.vector_vector(left, Arrays.stream(right).map(operator).toArray());
             }
         };
     }
