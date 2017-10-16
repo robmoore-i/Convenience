@@ -23,7 +23,12 @@ public class ConveniencerTest {
     }
 
     @Test
-    public void canAddVectorToVector() {
+    public void canAddVectorToVector() throws LengthError {
         assertThat(c.add(new int[]{0, 2, 6, 9, 4}, new int[]{1, 2, 3, 4, 5}), equalTo(new int[]{1, 4, 9, 13, 9}));
+    }
+
+    @Test(expected = LengthError.class)
+    public void throwsLengthErrorIfVectorsNotSameLength() throws LengthError {
+        c.add(new int[]{0, 1, 2}, new int[]{10, 11});
     }
 }

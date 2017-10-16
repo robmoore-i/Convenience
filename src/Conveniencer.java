@@ -13,8 +13,10 @@ public class Conveniencer {
         return add(right, left);
     }
 
-    public int[] add(int[] left, int[] right) {
-        assert left.length == right.length;
+    public int[] add(int[] left, int[] right) throws LengthError {
+        if (left.length != right.length) {
+            throw new LengthError();
+        }
         int[] result = new int[left.length];
         for (int i = 0; i < left.length; i++) {
             result[i] = left[i] + right[i];
