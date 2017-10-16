@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.function.DoubleBinaryOperator;
 
-public abstract class Dyad {
+public abstract class DoubleDyad {
     public abstract double scalar_scalar(double left, double right);
     public abstract double[] scalar_vector(double left, double[] right);
     public abstract double[] vector_scalar(double[] left, double right);
@@ -18,8 +18,8 @@ public abstract class Dyad {
         return result;
     }
 
-    public static Dyad fromOperator(DoubleBinaryOperator operator) {
-        return new Dyad() {
+    public static DoubleDyad fromOperator(DoubleBinaryOperator operator) {
+        return new DoubleDyad() {
             public double scalar_scalar(double left, double right) {
                 return operator.applyAsDouble(left, right);
             }
