@@ -1,8 +1,7 @@
 import java.util.Arrays;
 import java.util.function.DoubleBinaryOperator;
-import java.util.function.DoubleUnaryOperator;
 
-public abstract class Dyadic {
+public abstract class Dyad {
     public abstract double scalar_scalar(double left, double right);
     public abstract double[] scalar_vector(double left, double[] right);
     public abstract double[] vector_scalar(double[] left, double right);
@@ -19,8 +18,8 @@ public abstract class Dyadic {
         return result;
     }
 
-    public static Dyadic commutative(DoubleBinaryOperator operator) {
-        return new Dyadic() {
+    public static Dyad fromOperator(DoubleBinaryOperator operator) {
+        return new Dyad() {
             public double scalar_scalar(double left, double right) {
                 return operator.applyAsDouble(left, right);
             }
@@ -32,36 +31,12 @@ public abstract class Dyadic {
 
             @Override
             public double[] vector_scalar(double[] left, double right) {
-                return scalar_vector(right, left);
+                return Arrays.stream(left).map(operand -> operator.applyAsDouble(operand, right)).toArray();
             }
 
             @Override
             public double[] vector_vector(double[] left, double[] right) throws LengthError {
                 return eachBoth(left, right);
-            }
-        };
-    }
-
-    public static Dyadic fromInverse(Dyadic inverse, DoubleUnaryOperator operator) {
-        return new Dyadic() {
-            @Override
-            public double scalar_scalar(double left, double right) {
-                return inverse.scalar_scalar(left, operator.applyAsDouble(right));
-            }
-
-            @Override
-            public double[] scalar_vector(double left, double[] right) {
-                return inverse.scalar_vector(left, Arrays.stream(right).map(operator).toArray());
-            }
-
-            @Override
-            public double[] vector_scalar(double[] left, double right) {
-                return inverse.vector_scalar(left, operator.applyAsDouble(right));
-            }
-
-            @Override
-            public double[] vector_vector(double[] left, double[] right) throws LengthError {
-                return inverse.vector_vector(left, Arrays.stream(right).map(operator).toArray());
             }
         };
     }

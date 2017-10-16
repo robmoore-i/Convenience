@@ -1,10 +1,15 @@
+import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
 
 public class Conveniencer {
-    public Dyadic add = Dyadic.commutative((left, right) -> left + right);
-    public Dyadic times = Dyadic.commutative((left, right) -> left * right);
-    public Dyadic minus = Dyadic.fromInverse(add, operand -> -operand);
-    public Dyadic divide = Dyadic.fromInverse(times, operand -> 1 / operand);
+    public Dyad add = Dyad.fromOperator((left, right) -> left + right);
+    public Dyad times = Dyad.fromOperator((left, right) -> left * right);
+    public Dyad minus = Dyad.fromOperator((left, right) -> left - right);
+    public Dyad divide = Dyad.fromOperator((left, right) -> left / right);
+
+    public Dyad dyad(DoubleBinaryOperator operator) {
+        return Dyad.fromOperator(operator);
+    }
 
     public Monad monad(DoubleUnaryOperator operator) {
         return Monad.fromOperator(operator);
