@@ -3,6 +3,11 @@ import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
 
 public abstract class Dyadic {
+    public abstract double scalar_scalar(double left, double right);
+    public abstract double[] scalar_vector(double left, double[] right);
+    public abstract double[] vector_scalar(double[] left, double right);
+    public abstract double[] vector_vector(double[] left, double[] right) throws LengthError;
+
     public double[] eachBoth(double[] left, double[] right, DoubleBinaryOperator operator) throws LengthError {
         if (left.length != right.length) {
             throw new LengthError();
@@ -16,35 +21,6 @@ public abstract class Dyadic {
 
     public double[] mapUnary(double[] right, DoubleUnaryOperator operator) {
         return Arrays.stream(right).map(operator).toArray();
-    }
-
-    public abstract double scalar_scalar(double left, double right);
-    public abstract double[] scalar_vector(double left, double[] right);
-    public abstract double[] vector_scalar(double[] left, double right);
-    public abstract double[] vector_vector(double[] left, double[] right) throws LengthError;
-
-    public static Dyadic fromInverse(Dyadic inverse, DoubleUnaryOperator operator) {
-        return new Dyadic() {
-            @Override
-            public double scalar_scalar(double left, double right) {
-                return inverse.scalar_scalar(left, operator.applyAsDouble(right));
-            }
-
-            @Override
-            public double[] scalar_vector(double left, double[] right) {
-                return inverse.scalar_vector(left, mapUnary(right, operator));
-            }
-
-            @Override
-            public double[] vector_scalar(double[] left, double right) {
-                return inverse.vector_scalar(left, operator.applyAsDouble(right));
-            }
-
-            @Override
-            public double[] vector_vector(double[] left, double[] right) throws LengthError {
-                return inverse.vector_vector(left, mapUnary(right, operator));
-            }
-        };
     }
 
     public static Dyadic commutative(DoubleBinaryOperator operator) {
@@ -66,6 +42,30 @@ public abstract class Dyadic {
             @Override
             public double[] vector_vector(double[] left, double[] right) throws LengthError {
                 return eachBoth(left, right, operator);
+            }
+        };
+    }
+
+    public static Dyadic fromInverse(Dyadic inverse, DoubleUnaryOperator operator) {
+        return new Dyadic() {
+            @Override
+            public double scalar_scalar(double left, double right) {
+                return inverse.scalar_scalar(left, operator.applyAsDouble(right));
+            }
+
+            @Override
+            public double[] scalar_vector(double left, double[] right) {
+                return inverse.scalar_vector(left, mapUnary(right, operator));
+            }
+
+            @Override
+            public double[] vector_scalar(double[] left, double right) {
+                return inverse.vector_scalar(left, operator.applyAsDouble(right));
+            }
+
+            @Override
+            public double[] vector_vector(double[] left, double[] right) throws LengthError {
+                return inverse.vector_vector(left, mapUnary(right, operator));
             }
         };
     }
