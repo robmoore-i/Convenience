@@ -9,26 +9,26 @@ public class ArrayAdditionTest {
 
     @Test
     public void canAddScalarToScalar() {
-        assertEquals(9, c.add(4, 5));
+        assertThat(c.add(4, 5), equalTo(9.0));
     }
 
     @Test
     public void canAddScalarToVector() {
-        assertThat(c.add(5, new int[]{3, 4, 5}), equalTo(new int[]{8, 9, 10}));
+        assertThat(c.add(5, new double[]{3, 4, 5}), equalTo(new double[]{8, 9, 10}));
     }
 
     @Test
     public void canAddVectorToScalar() {
-        assertThat(c.add(new int[]{0, 2, 6, 9, 4}, 9), equalTo(new int[]{9, 11, 15, 18, 13}));
+        assertThat(c.add(new double[]{0, 2, 6, 9, 4}, 9), equalTo(new double[]{9, 11, 15, 18, 13}));
     }
 
     @Test
     public void canAddVectorToVector() throws LengthError {
-        assertThat(c.add(new int[]{0, 2, 6, 9, 4}, new int[]{1, 2, 3, 4, 5}), equalTo(new int[]{1, 4, 9, 13, 9}));
+        assertThat(c.add(new double[]{0, 2, 6, 9, 4}, new double[]{1, 2, 3, 4, 5}), equalTo(new double[]{1, 4, 9, 13, 9}));
     }
 
     @Test(expected = LengthError.class)
     public void throwsLengthErrorIfVectorsNotSameLength() throws LengthError {
-        c.add(new int[]{0, 1, 2}, new int[]{10, 11});
+        c.add(new double[]{0, 1, 2}, new double[]{10, 11});
     }
 }

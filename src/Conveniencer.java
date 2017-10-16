@@ -1,67 +1,87 @@
 import java.util.Arrays;
-import java.util.function.IntBinaryOperator;
+import java.util.function.DoubleBinaryOperator;
 
 public class Conveniencer {
-    public int[] neg(int[] right) {
+    public double[] neg(double[] right) {
         return Arrays.stream(right).map(operand -> -operand).toArray();
     }
 
-    public int[] eachBoth(int[] left, int[] right, IntBinaryOperator operator) throws LengthError {
+    public double[] reciprocal(double[] right) {
+        return Arrays.stream(right).map(operand -> 1 / operand).toArray();
+    }
+
+    public double[] eachBoth(double[] left, double[] right, DoubleBinaryOperator operator) throws LengthError {
         if (left.length != right.length) {
             throw new LengthError();
         }
-        int[] result = new int[left.length];
+        double[] result = new double[left.length];
         for (int i = 0; i < left.length; i++) {
-            result[i] = operator.applyAsInt(left[i], right[i]);
+            result[i] = operator.applyAsDouble(left[i], right[i]);
         }
         return result;
     }
 
-    public int add(int left, int right) {
+    public double add(double left, double right) {
         return left + right;
     }
 
-    public int[] add(int left, int[] right) {
+    public double[] add(double left, double[] right) {
         return Arrays.stream(right).map(operand -> left + operand).toArray();
     }
 
-    public int[] add(int[] left, int right) {
+    public double[] add(double[] left, double right) {
         return add(right, left);
     }
 
-    public int[] add(int[] left, int[] right) throws LengthError {
+    public double[] add(double[] left, double[] right) throws LengthError {
         return eachBoth(left, right, (x, y) -> x + y);
     }
 
-    public int minus(int left, int right) {
+    public double minus(double left, double right) {
         return add(left, -right);
     }
 
-    public int[] minus(int left, int[] right) {
+    public double[] minus(double left, double[] right) {
         return add(left, neg(right));
     }
 
-    public int[] minus(int[] left, int right) {
+    public double[] minus(double[] left, double right) {
         return add(left, -right);
     }
 
-    public int[] minus(int[] left, int[] right) throws LengthError {
+    public double[] minus(double[] left, double[] right) throws LengthError {
         return add(left, neg(right));
     }
 
-    public int times(int left, int right) {
+    public double times(double left, double right) {
         return left * right;
     }
 
-    public int[] times(int left, int[] right) {
+    public double[] times(double left, double[] right) {
         return Arrays.stream(right).map(operand -> left * operand).toArray();
     }
 
-    public int[] times(int[] left, int right) {
+    public double[] times(double[] left, double right) {
         return times(right, left);
     }
 
-    public int[] times(int[] left, int[] right) throws LengthError {
+    public double[] times(double[] left, double[] right) throws LengthError {
         return eachBoth(left, right, (x, y) -> x * y);
+    }
+
+    public double divide(double left, double right) {
+        return left / right;
+    }
+
+    public double[] divide(double left, double[] right) {
+        return times(left, reciprocal(right));
+    }
+
+    public double[] divide(double[] left, double right) {
+        return Arrays.stream(left).map(operand -> operand / right).toArray();
+    }
+
+    public double[] divide(double[] left, double[] right) throws LengthError {
+        return eachBoth(left, right, (x, y) -> x / y);
     }
 }
