@@ -16,4 +16,9 @@ public class ConveniencerTest {
     public void canAddScalarToVector() {
         assertThat(c.add(5, new int[]{3, 4, 5}), equalTo(new int[]{8, 9, 10}));
     }
+
+    @Test
+    public void canAddVectorToScalar() {
+        assertThat(c.add(new int[]{0, 2, 6, 9, 4}, 9), equalTo(new int[]{9, 11, 15, 18, 13}));
+    }
 }
