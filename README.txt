@@ -13,7 +13,7 @@ A cute little array programming library!
 
 ## Notes
 
-### Generic types for DoubleMonad and DoubleDyad
-I have attempted to generify the DoubleMonad and DoubleDyad functions using generics with no success. If someone sees it, knows
+### Generic types for Number.DoubleMonad and Number.DoubleDyad
+I have attempted to generify the Number.DoubleMonad and Number.DoubleDyad functions using generics with no success. If someone sees it, knows
 straight away and enjoys the feeling of being smug (and very appreciated!) and wants to help me, that would be
 fantastic.

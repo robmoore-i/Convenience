@@ -1,3 +1,7 @@
+package String;
+
+import Main.LengthError;
+
 import java.util.function.BinaryOperator;
 
 public abstract class StringDyad {

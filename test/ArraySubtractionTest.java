@@ -1,3 +1,6 @@
+import Main.Conveniencer;
+import Main.LengthError;
+import Number.NumberConveniencer;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;

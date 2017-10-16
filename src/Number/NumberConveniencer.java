@@ -1,3 +1,5 @@
+package Number;
+
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
 

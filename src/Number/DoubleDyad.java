@@ -1,3 +1,7 @@
+package Number;
+
+import Main.LengthError;
+
 import java.util.Arrays;
 import java.util.function.DoubleBinaryOperator;
 
