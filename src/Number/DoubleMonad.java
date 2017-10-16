@@ -5,6 +5,7 @@ import java.util.function.DoubleUnaryOperator;
 
 public abstract class DoubleMonad {
     public abstract double onScalar(double right);
+
     @SuppressWarnings("unused") // vvv For completeness
     public double[] onVector(double[] right) {
         return each(right);

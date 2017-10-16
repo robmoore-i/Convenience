@@ -7,8 +7,11 @@ import java.util.function.DoubleBinaryOperator;
 
 public abstract class DoubleDyad {
     public abstract double scalar_scalar(double left, double right);
+
     public abstract double[] scalar_vector(double left, double[] right);
+
     public abstract double[] vector_scalar(double[] left, double right);
+
     public abstract double[] vector_vector(double[] left, double[] right) throws LengthError;
 
     public double[] eachBoth(double[] left, double[] right) throws LengthError {
