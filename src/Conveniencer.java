@@ -23,4 +23,20 @@ public class Conveniencer {
         }
         return result;
     }
+
+    public int minus(int left, int right) {
+        return add(left, -right);
+    }
+
+    public int[] minus(int left, int[] right) {
+        return add(left, Arrays.stream(right).map(operand -> -operand).toArray());
+    }
+
+    public int[] minus(int[] left, int right) {
+        return add(left, -right);
+    }
+
+    public int[] minus(int[] left, int[] right) throws LengthError {
+        return add(left, Arrays.stream(right).map(operand -> -operand).toArray());
+    }
 }
