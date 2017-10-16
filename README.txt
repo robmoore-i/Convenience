@@ -8,3 +8,10 @@ but I want the best of both worlds.
 
 ## Solution
 A cute little array programming library!
+
+## Notes
+
+### Generic types for Monad and Dyad
+I have attempted to generify the Monad and Dyad functions using generics with no success. If someone sees it, knows
+straight away and enjoys the feeling of being smug (and very appreciated!) and wants to help me, that would be
+fantastic.
