@@ -1,22 +1,23 @@
 import java.util.Arrays;
 import java.util.function.DoubleUnaryOperator;
+import java.util.function.UnaryOperator;
 
-public abstract class Monad {
-    public abstract double onScalar(double right);
+public abstract class Monad<T> {
+    public abstract T onScalar(T right);
     @SuppressWarnings("unused") // vvv For completeness
-    public double[] onVector(double[] right) {
+    public T[] onVector(T[] right) {
         return each(right);
     }
 
-    public double[] each(double[] right) {
-        return Arrays.stream(right).map(this::onScalar).toArray();
+    public T[] each(T[] right) {
+        return (T[]) Arrays.stream(right).map(this::onScalar).toArray();
     }
 
-    public static Monad fromOperator(DoubleUnaryOperator operator) {
-        return new Monad() {
+    public static <S> Monad fromOperator(UnaryOperator<S> operator, Class<S> cast) {
+        return new Monad<S>() {
             @Override
-            public double onScalar(double right) {
-                return operator.applyAsDouble(right);
+            public S onScalar(S right) {
+                return operator.apply(cast.cast(right));
             }
         };
     }

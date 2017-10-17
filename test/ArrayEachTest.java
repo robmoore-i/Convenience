@@ -8,6 +8,6 @@ public class ArrayEachTest {
 
     @Test
     public void canSquareEachOfAList() {
-        assertThat(c.monad(operand -> operand * operand).each(new double[]{3, 4, 5}), equalTo(new double[]{9.0, 16.0, 25.0}));
+        assertThat(c.monad(operand -> operand * operand, Double.class).each(new Double[]{3.0, 4.0, 5.0}), equalTo(new Double[]{9.0, 16.0, 25.0}));
     }
 }
