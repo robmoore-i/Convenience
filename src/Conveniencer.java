@@ -1,16 +1,16 @@
-import java.util.function.DoubleBinaryOperator;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Conveniencer {
     // Dyads
 
-    public Dyad add = Dyad.fromOperator((left, right) -> left + right);
-    public Dyad times = Dyad.fromOperator((left, right) -> left * right);
-    public Dyad minus = Dyad.fromOperator((left, right) -> left - right);
-    public Dyad divide = Dyad.fromOperator((left, right) -> left / right);
+    public Dyad<Double, Double, Double> add = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left + right);
+    public Dyad<Double, Double, Double> times = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left * right);
+    public Dyad<Double, Double, Double> minus = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left - right);
+    public Dyad<Double, Double, Double> divide = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left / right);
 
-    public Dyad dyad(DoubleBinaryOperator operator) {
-        return Dyad.fromOperator(operator);
+    public <L, R, O> Dyad<L, R, O> dyad(BiFunction<L, R, O> f) {
+        return Dyad.fromOperator(f);
     }
 
     // Monads

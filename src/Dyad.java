@@ -1,41 +1,44 @@
 import java.util.Arrays;
-import java.util.function.DoubleBinaryOperator;
+import java.util.function.BiFunction;
 
-public abstract class Dyad {
-    public abstract double scalar_scalar(double left, double right);
-    public abstract double[] scalar_vector(double left, double[] right);
-    public abstract double[] vector_scalar(double[] left, double right);
-    public abstract double[] vector_vector(double[] left, double[] right) throws LengthError;
+public abstract class Dyad<L, R, O> {
+    public abstract O scalar_scalar(L left, R right);
 
-    public double[] eachBoth(double[] left, double[] right) throws LengthError {
+    public abstract O[] scalar_vector(L left, R[] right);
+
+    public abstract O[] vector_scalar(L[] left, R right);
+
+    public abstract O[] vector_vector(L[] left, R[] right) throws LengthError;
+
+    public O[] eachBoth(L[] left, R[] right) throws LengthError {
         if (left.length != right.length) {
             throw new LengthError();
         }
-        double[] result = new double[left.length];
+        Object[] result = new Object[left.length];
         for (int i = 0; i < left.length; i++) {
             result[i] = scalar_scalar(left[i], right[i]);
         }
-        return result;
+        return (O[]) result;
     }
 
-    public static Dyad fromOperator(DoubleBinaryOperator operator) {
-        return new Dyad() {
-            public double scalar_scalar(double left, double right) {
-                return operator.applyAsDouble(left, right);
+    public static <P, Q, R> Dyad<P, Q, R> fromOperator(BiFunction<P, Q, R> f) {
+        return new Dyad<P, Q, R>() {
+            public R scalar_scalar(P left, Q right) {
+                return f.apply(left, right);
             }
 
             @Override
-            public double[] scalar_vector(double left, double[] right) {
-                return Arrays.stream(right).map(operand -> operator.applyAsDouble(left, operand)).toArray();
+            public R[] scalar_vector(P left, Q[] right) {
+                return (R[]) Arrays.stream(right).map(operand -> f.apply(left, operand)).toArray();
             }
 
             @Override
-            public double[] vector_scalar(double[] left, double right) {
-                return Arrays.stream(left).map(operand -> operator.applyAsDouble(operand, right)).toArray();
+            public R[] vector_scalar(P[] left, Q right) {
+                return (R[]) Arrays.stream(left).map(operand -> f.apply(operand, right)).toArray();
             }
 
             @Override
-            public double[] vector_vector(double[] left, double[] right) throws LengthError {
+            public R[] vector_vector(P[] left, Q[] right) throws LengthError {
                 return eachBoth(left, right);
             }
         };
