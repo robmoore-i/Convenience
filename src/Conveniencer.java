@@ -28,7 +28,7 @@ public class Conveniencer {
     public Dyad<Double, Double, Double> minus = dyad((BiFunction<Double, Double, Double>) (left, right) -> left - right);
     public Dyad<Double, Double, Double> divide = dyad((BiFunction<Double, Double, Double>) (left, right) -> left / right);
 
-    // GENERAL MONADS //
+    // ARRAY MONADS //
     public <T> Monad<T[], T[]> reverse() {
         return monad(this::reverse);
     }
@@ -37,7 +37,7 @@ public class Conveniencer {
         return monad(this::distinct);
     }
 
-    // GENERAL DYADS //
+    // ARRAY DYADS //
     public <T> Dyad<Integer, T[], T[]> take() {
         return dyad(this::take);
     }

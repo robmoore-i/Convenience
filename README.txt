@@ -1,17 +1,38 @@
 # Convenience
 
-## A library for accessing super-powered functions from more powerful languages in the big friendly giant, Java.
+The powerful list functions from more powerful APL derivative languages, implemented in Java for my convenience.
+This includes higher order functions e.g. K's each adverbs, sliding windows, power over function rank as in J.
 
-## Problem
-I have become spoilt by the great power of high level functional array oriented programming in J, K and Q. OO is nice,
-but I want the best of both worlds.
+## Implemented
 
-## Solution
-A cute little array programming library!
+### Numbers
 
-## Notes
+neg, reciprocal, sqrt, floor, ceiling, log, exp, abs, signum, add, times, minus, divide
 
-### Generic types for Monad and Dyad
-I have attempted to generify the Monad and Dyad functions using generics with no success. If someone sees it, knows
-straight away and enjoys the feeling of being smug (and very appreciated!) and wants to help me, that would be
-fantastic.
+### Arrays in general - note that these are constant functions in order to retain their generic array types.
+
+distinct, reverse, take, drop
+
+## Planned
+
+### Verbs
+
+head, behead, tail, curtail, first, last, index-of-first, index-of-last, where
+
+raze, join, rotate, subarray, cross-product, asc/desc sorting, enumerate, fill, at-least/at-most
+
+string padding
+
+Q's sv/vs
+
+### Adverbs
+
+N-ary sliding window
+
+J's insert, prefix, suffix
+
+K's fold, converge, iterate
+
+K's functional amend
+
+J's power adverb  (^:)
