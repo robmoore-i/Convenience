@@ -1,5 +1,5 @@
 import java.util.function.DoubleBinaryOperator;
-import java.util.function.UnaryOperator;
+import java.util.function.Function;
 
 public class Conveniencer {
     // Dyads
@@ -15,11 +15,11 @@ public class Conveniencer {
 
     // Monads
 
-    public Monad neg = Monad.fromOperator(operand -> -operand, Double.class);
-    public Monad reciprocal = Monad.fromOperator(operand -> 1 / operand, Double.class);
-    public Monad sqrt = Monad.fromOperator(Math::sqrt, Double.class);
+    public Monad<Double, Double> neg = Monad.fromOperator((Function<Double, Double>) operand -> -operand);
+    public Monad<Double, Double> reciprocal = Monad.fromOperator((Function<Double, Double>) operand -> 1 / operand);
+    public Monad<Double, Double> sqrt = Monad.fromOperator(Math::sqrt);
 
-    public <T> Monad<T> monad(UnaryOperator<T> operator, Class<T> cast) {
-        return Monad.fromOperator(operator, cast);
+    public <I, O> Monad<I, O> monad(Function<I, O> f) {
+        return Monad.fromOperator(f);
     }
 }
