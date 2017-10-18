@@ -29,17 +29,12 @@ public class Conveniencer {
     public Dyad<Double, Double, Double> divide = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left / right);
 
     // GENERAL MONADS //
-    public <T> T[] reverse(T[] a) {
-        int l = a.length;
-        Object[] reversed = new Object[l];
-        for (int i = 0; i < l; i++) {
-            reversed[i] = a[l - 1 - i];
-        }
-        return (T[]) reversed;
+    public <T> Monad<T[], T[]> reverse() {
+        return monad(this::reverse);
     }
 
-    public <T> T[] distinct(T[] a) {
-        return (T[]) Arrays.stream(a).distinct().toArray();
+    public <T> Monad<T[], T[]> distinct() {
+        return monad(this::distinct);
     }
 
     // GENERAL DYADS //
@@ -52,7 +47,6 @@ public class Conveniencer {
     }
 
     // PRIVATE HELPERS //
-
     private <T> T[] takePositive(int n, T[] a, int l, Object[] r) {
         int i = 0;
         while (i < n) {
@@ -94,5 +88,18 @@ public class Conveniencer {
             System.arraycopy(a, n > 0 ? n : 0, r, 0, l - nAbs);
             return (T[]) r;
         }
+    }
+
+    private <T> T[] reverse(T[] a) {
+        int l = a.length;
+        Object[] reversed = new Object[l];
+        for (int i = 0; i < l; i++) {
+            reversed[i] = a[l - 1 - i];
+        }
+        return (T[]) reversed;
+    }
+
+    private <T> T[] distinct(T[] a) {
+        return (T[]) Arrays.stream(a).distinct().toArray();
     }
 }
