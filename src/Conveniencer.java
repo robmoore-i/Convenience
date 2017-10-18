@@ -18,6 +18,7 @@ public class Conveniencer {
     public Monad<Double, Double> neg = Monad.fromOperator((Function<Double, Double>) operand -> -operand);
     public Monad<Double, Double> reciprocal = Monad.fromOperator((Function<Double, Double>) operand -> 1 / operand);
     public Monad<Double, Double> sqrt = Monad.fromOperator(Math::sqrt);
+    public Monad<Double, Double> abs = Monad.fromOperator((Function<Double, Double>) Math::abs);
 
     public <I, O> Monad<I, O> monad(Function<I, O> f) {
         return Monad.fromOperator(f);
