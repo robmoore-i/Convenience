@@ -66,4 +66,27 @@ public class Conveniencer {
             return takeNegative(Math.abs(n), a, l, r);
         }
     }
+
+    private <T> T[] dropPositive(int n, T[] a, int l, Object[] r) {
+        System.arraycopy(a, n, r, 0, l - n);
+        return (T[]) r;
+    }
+
+    private <T> T[] dropNegative(int n, T[] a, int l, Object[] r) {
+        System.arraycopy(a, 0, r, 0, l - n);
+        return (T[]) r;
+    }
+
+    public <T> T[] drop(int n, T[] a) {
+        int l = a.length;
+        int nAbs = Math.abs(n);
+        Object[] r = new Object[l - nAbs];
+        if (n == 0) {
+            return a;
+        } else if (n > 0) {
+            return dropPositive(n, a, l, r);
+        } else {
+            return dropNegative(nAbs, a, l, r);
+        }
+    }
 }

@@ -24,7 +24,7 @@ public class ArrayTakeTest {
 
     @Test
     public void canTakeNFromSingletonArray() {
-        assertThat(c.take(1, new Integer[]{1}), equalTo(new Integer[]{1}));
+        assertThat(c.take(5, new Integer[]{1}), equalTo(new Integer[]{1, 1, 1, 1, 1}));
     }
 
     @Test
