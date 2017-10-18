@@ -12,21 +12,21 @@ public class Conveniencer {
     }
 
     // NUMERIC MONADS //
-    public Monad<Double, Double> neg = Monad.fromOperator((Function<Double, Double>) operand -> -operand);
-    public Monad<Double, Double> reciprocal = Monad.fromOperator((Function<Double, Double>) operand -> 1 / operand);
-    public Monad<Double, Double> sqrt = Monad.fromOperator(Math::sqrt);
-    public Monad<Double, Double> floor = Monad.fromOperator(Math::floor);
-    public Monad<Double, Double> ceiling = Monad.fromOperator(Math::ceil);
-    public Monad<Double, Double> log = Monad.fromOperator(Math::log);
-    public Monad<Double, Double> exp = Monad.fromOperator(Math::exp);
-    public Monad<Double, Double> abs = Monad.fromOperator((Function<Double, Double>) Math::abs);
-    public Monad<Double, Double> signum = Monad.fromOperator((Function<Double, Double>) Math::signum);
+    public Monad<Double, Double> neg = monad((Function<Double, Double>) operand -> -operand);
+    public Monad<Double, Double> reciprocal = monad((Function<Double, Double>) operand -> 1 / operand);
+    public Monad<Double, Double> sqrt = monad(Math::sqrt);
+    public Monad<Double, Double> floor = monad(Math::floor);
+    public Monad<Double, Double> ceiling = monad(Math::ceil);
+    public Monad<Double, Double> log = monad(Math::log);
+    public Monad<Double, Double> exp = monad(Math::exp);
+    public Monad<Double, Double> abs = monad((Function<Double, Double>) Math::abs);
+    public Monad<Double, Double> signum = monad((Function<Double, Double>) Math::signum);
 
     // NUMERIC DYADS //
-    public Dyad<Double, Double, Double> add = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left + right);
-    public Dyad<Double, Double, Double> times = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left * right);
-    public Dyad<Double, Double, Double> minus = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left - right);
-    public Dyad<Double, Double, Double> divide = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left / right);
+    public Dyad<Double, Double, Double> add = dyad((BiFunction<Double, Double, Double>) (left, right) -> left + right);
+    public Dyad<Double, Double, Double> times = dyad((BiFunction<Double, Double, Double>) (left, right) -> left * right);
+    public Dyad<Double, Double, Double> minus = dyad((BiFunction<Double, Double, Double>) (left, right) -> left - right);
+    public Dyad<Double, Double, Double> divide = dyad((BiFunction<Double, Double, Double>) (left, right) -> left / right);
 
     // GENERAL MONADS //
     public <T> Monad<T[], T[]> reverse() {
