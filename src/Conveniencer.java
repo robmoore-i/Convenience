@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -32,6 +33,18 @@ public class Conveniencer {
     // STRING DYADS //
 
     // GENERAL MONADS //
+    public <T> T[] reverse(T[] a) {
+        int l = a.length;
+        Object[] reversed = new Object[l];
+        for (int i = 0; i < l; i++) {
+            reversed[i] = a[l - 1 - i];
+        }
+        return (T[]) reversed;
+    }
+
+    public <T> T[] distinct(T[] a) {
+        return (T[]) Arrays.stream(a).distinct().toArray();
+    }
 
     // GENERAL DYADS //
     private <T> T[] takePositive(int n, T[] a, int l, Object[] r) {
@@ -77,14 +90,5 @@ public class Conveniencer {
             System.arraycopy(a, n > 0 ? n : 0, r, 0, l - nAbs);
             return (T[]) r;
         }
-    }
-
-    public <T> T[] reverse(T[] a) {
-        int l = a.length;
-        Object[] reversed = new Object[l];
-        for (int i = 0; i < l; i++) {
-            reversed[i] = a[l - 1 - i];
-        }
-        return (T[]) reversed;
     }
 }
