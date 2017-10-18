@@ -48,12 +48,10 @@ public class Conveniencer {
 
     // GENERAL DYADS //
     private <T> T[] takePositive(int n, T[] a, int l, Object[] r) {
-        int ia = 0;
-        int ir = 0;
-        while (ir < n) {
-            r[ir] = a[ia % l];
-            ir++;
-            ia++;
+        int i = 0;
+        while (i < n) {
+            r[i] = a[i % l];
+            i++;
         }
         return (T[]) r;
     }
