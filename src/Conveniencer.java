@@ -28,10 +28,6 @@ public class Conveniencer {
     public Dyad<Double, Double, Double> minus = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left - right);
     public Dyad<Double, Double, Double> divide = Dyad.fromOperator((BiFunction<Double, Double, Double>) (left, right) -> left / right);
 
-    // STRING MONADS //
-
-    // STRING DYADS //
-
     // GENERAL MONADS //
     public <T> T[] reverse(T[] a) {
         int l = a.length;
@@ -47,6 +43,16 @@ public class Conveniencer {
     }
 
     // GENERAL DYADS //
+    public <T> Dyad<Integer, T[], T[]> take() {
+        return dyad(this::take);
+    }
+
+    public <T> Dyad<Integer, T[], T[]> drop() {
+        return dyad(this::drop);
+    }
+
+    // PRIVATE HELPERS //
+
     private <T> T[] takePositive(int n, T[] a, int l, Object[] r) {
         int i = 0;
         while (i < n) {
@@ -67,7 +73,7 @@ public class Conveniencer {
         return (T[]) r;
     }
 
-    public <T> T[] take(int n, T[] a) {
+    private <T> T[] take(int n, T[] a) {
         int l = a.length;
         int nAbs = Math.abs(n);
         Object[] r = new Object[nAbs];
@@ -78,7 +84,7 @@ public class Conveniencer {
         }
     }
 
-    public <T> T[] drop(int n, T[] a) {
+    private <T> T[] drop(int n, T[] a) {
         if (n == 0) {
             return a;
         } else {
