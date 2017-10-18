@@ -34,27 +34,36 @@ public class Conveniencer {
     // GENERAL MONADS //
 
     // GENERAL DYADS //
+    private <T> T[] takePositive(int n, T[] a, int l, Object[] r) {
+        int ia = 0;
+        int ir = 0;
+        while (ir < n) {
+            r[ir] = a[ia % l];
+            ir++;
+            ia++;
+        }
+        return (T[]) r;
+    }
+
+    private <T> T[] takeNegative(int n, T[] a, int l, Object[] r) {
+        int ia = l - 1;
+        int ir = n - 1;
+        while (ir >= 0) {
+            r[ir] = a[ia];
+            ir--;
+            ia = (ia - 1) - l * Math.floorDiv(ia - 1, l);
+        }
+        return (T[]) r;
+    }
+
     public <T> T[] take(int n, T[] a) {
         int l = a.length;
         int nAbs = Math.abs(n);
         Object[] r = new Object[nAbs];
-        int ia = n > 0 ? 0 : l - 1;
-        int ir = n > 0 ? 0 : nAbs - 1;
-        int inc = n > 0 ? 1 : -1;
         if (n > 0) {
-            while (ir < nAbs) {
-                r[ir] = a[ia % l];
-                ir += inc;
-                ia += inc;
-            }
+            return takePositive(n, a, l, r);
         } else {
-            while (ir >= 0) {
-                int mod = ia - l * Math.floorDiv(ia, l);
-                r[ir] = a[mod];
-                ir += inc;
-                ia += inc;
-            }
+            return takeNegative(Math.abs(n), a, l, r);
         }
-        return (T[]) r;
     }
 }
