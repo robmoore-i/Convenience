@@ -78,4 +78,13 @@ public class Conveniencer {
             return (T[]) r;
         }
     }
+
+    public <T> T[] reverse(T[] a) {
+        int l = a.length;
+        Object[] reversed = new Object[l];
+        for (int i = 0; i < l; i++) {
+            reversed[i] = a[l - 1 - i];
+        }
+        return (T[]) reversed;
+    }
 }
