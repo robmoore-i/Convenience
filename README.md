@@ -11,15 +11,15 @@ neg, reciprocal, sqrt, floor, ceiling, log, exp, abs, signum, add, times, minus,
 
 ### Arrays in general - note that these are constant functions in order to retain their generic array types.
 
-distinct, reverse, take, drop
+distinct, reverse, take, drop, head, behead, tail, curtail, first, last, join, enrray (enlist for arrays)
 
 ## Planned
 
 ### Verbs
 
-head, behead, tail, curtail, first, last, index-of-first, index-of-last, where
+index-of-first, index-of-last, where
 
-raze, join, rotate, subarray, cross-product, asc/desc sorting, enumerate, fill, at-least/at-most
+raze, rotate, subarray, cross-product, asc/desc sorting, enumerate, fill, at-least/at-most
 
 string padding
 
