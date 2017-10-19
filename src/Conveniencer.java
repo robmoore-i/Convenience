@@ -30,20 +30,83 @@ public class Conveniencer {
 
     // ARRAY MONADS //
     public <T> Monad<T[], T[]> reverse() {
-        return monad(this::reverse);
+        return monad(a -> {
+            int l = a.length;
+            Object[] reversed = new Object[l];
+            for (int i = 0; i < l; i++) {
+                reversed[i] = a[l - 1 - i];
+            }
+            return (T[]) reversed;
+        });
     }
 
     public <T> Monad<T[], T[]> distinct() {
-        return monad(this::distinct);
+        return monad(a -> (T[]) Arrays.stream(a).distinct().toArray());
+    }
+
+    public <T> Monad<T[], T> first() {
+        return monad(ts -> ts[0]);
+    }
+
+    public <T> Monad<T[], T[]> behead() {
+        return monad(ts -> {
+            Object[] r = new Object[ts.length - 1];
+            System.arraycopy(ts, 1, r, 0, ts.length - 1);
+            return (T[]) r;
+        });
+    }
+
+    public <T> Monad<T[], T> last() {
+        return monad(ts -> ts[ts.length - 1]);
+    }
+
+    public <T> Monad<T[], T[]> curtail() {
+        return monad(ts -> {
+            Object[] r = new Object[ts.length - 1];
+            System.arraycopy(ts, 0, r, 0, ts.length - 1);
+            return (T[]) r;
+        });
+    }
+
+    public <T> Monad<T, T[]> enrray() {
+        return monad(t -> (T[]) new Object[]{t});
     }
 
     // ARRAY DYADS //
     public <T> Dyad<Integer, T[], T[]> take() {
-        return dyad(this::take);
+        return dyad((n, a) -> {
+            int l = a.length;
+            int nAbs = Math.abs(n);
+            Object[] r = new Object[nAbs];
+            if (n > 0) {
+                return takePositive((int) n, a, l, r);
+            } else {
+                return takeNegative(Math.abs((int) n), a, l, r);
+            }
+        });
     }
 
     public <T> Dyad<Integer, T[], T[]> drop() {
-        return dyad(this::drop);
+        return dyad((n, a) -> {
+            if (n == 0) {
+                return a;
+            } else {
+                int l = a.length;
+                int nAbs = Math.abs(n);
+                Object[] r = new Object[l - nAbs];
+                System.arraycopy(a, n > 0 ? n : 0, r, 0, l - nAbs);
+                return (T[]) r;
+            }
+        });
+    }
+
+    public <T> Dyad<T[], T[], T[]> join() {
+        return dyad((a, b) -> {
+            Object[] r = new Object[a.length + b.length];
+            System.arraycopy(a, 0, r, 0, a.length);
+            System.arraycopy(b, 0, r, a.length, b.length);
+            return (T[]) r;
+        });
     }
 
     // PRIVATE HELPERS //
@@ -65,41 +128,5 @@ public class Conveniencer {
             ia = (ia - 1) - l * Math.floorDiv(ia - 1, l);
         }
         return (T[]) r;
-    }
-
-    private <T> T[] take(int n, T[] a) {
-        int l = a.length;
-        int nAbs = Math.abs(n);
-        Object[] r = new Object[nAbs];
-        if (n > 0) {
-            return takePositive(n, a, l, r);
-        } else {
-            return takeNegative(Math.abs(n), a, l, r);
-        }
-    }
-
-    private <T> T[] drop(int n, T[] a) {
-        if (n == 0) {
-            return a;
-        } else {
-            int l = a.length;
-            int nAbs = Math.abs(n);
-            Object[] r = new Object[l - nAbs];
-            System.arraycopy(a, n > 0 ? n : 0, r, 0, l - nAbs);
-            return (T[]) r;
-        }
-    }
-
-    private <T> T[] reverse(T[] a) {
-        int l = a.length;
-        Object[] reversed = new Object[l];
-        for (int i = 0; i < l; i++) {
-            reversed[i] = a[l - 1 - i];
-        }
-        return (T[]) reversed;
-    }
-
-    private <T> T[] distinct(T[] a) {
-        return (T[]) Arrays.stream(a).distinct().toArray();
     }
 }
