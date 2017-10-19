@@ -8,31 +8,31 @@ public class ArrayResizingTest {
 
     @Test
     public void canGetFirst() {
-        assertThat(c.first().onScalar(new Integer[]{5, 6, 7}), equalTo(5));
+        assertThat(c.first().one(new Integer[]{5, 6, 7}), equalTo(5));
     }
 
     @Test
     public void canGetLast() {
-        assertThat(c.last().onScalar(new Integer[]{5, 6, 7}), equalTo(7));
+        assertThat(c.last().one(new Integer[]{5, 6, 7}), equalTo(7));
     }
 
     @Test
     public void canBehead() {
-        assertThat(c.behead().onScalar(new Integer[]{5, 6, 7}), equalTo(new Integer[]{6, 7}));
+        assertThat(c.behead().one(new Integer[]{5, 6, 7}), equalTo(new Integer[]{6, 7}));
     }
 
     @Test
     public void canCurtail() {
-        assertThat(c.curtail().onScalar(new Integer[]{5, 6, 7}), equalTo(new Integer[]{5, 6}));
+        assertThat(c.curtail().one(new Integer[]{5, 6, 7}), equalTo(new Integer[]{5, 6}));
     }
 
     @Test
     public void canJoinArrays() {
-        assertThat(c.join().scalar_scalar(new Integer[]{5, 6, 7}, new Integer[]{8, 9, 10}), equalTo(new Integer[]{5, 6, 7, 8, 9, 10}));
+        assertThat(c.join().one_to_one(new Integer[]{5, 6, 7}, new Integer[]{8, 9, 10}), equalTo(new Integer[]{5, 6, 7, 8, 9, 10}));
     }
 
     @Test
     public void canEnrrayAtom() {
-        assertThat(c.enrray().onScalar(5), equalTo(new Integer[]{5}));
+        assertThat(c.enrray().one(5), equalTo(new Integer[]{5}));
     }
 }

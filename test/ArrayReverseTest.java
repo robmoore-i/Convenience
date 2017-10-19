@@ -8,11 +8,11 @@ public class ArrayReverseTest {
 
     @Test
     public void canReverseOneElement() {
-        assertThat(reverse.onScalar(new Integer[]{1}), equalTo(new Integer[]{1}));
+        assertThat(reverse.one(new Integer[]{1}), equalTo(new Integer[]{1}));
     }
 
     @Test
     public void canReverseAFewElements() {
-        assertThat(reverse.onScalar(new Integer[]{1, 2, 3}), equalTo(new Integer[]{3, 2, 1}));
+        assertThat(reverse.one(new Integer[]{1, 2, 3}), equalTo(new Integer[]{3, 2, 1}));
     }
 }

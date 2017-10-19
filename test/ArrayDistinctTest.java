@@ -8,16 +8,16 @@ public class ArrayDistinctTest {
 
     @Test
     public void doesntMessWithSingletonArray() {
-        assertThat(distinct.onScalar(new Integer[]{1}), equalTo(new Integer[]{1}));
+        assertThat(distinct.one(new Integer[]{1}), equalTo(new Integer[]{1}));
     }
 
     @Test
     public void doesntMessWithDistinctArray() {
-        assertThat(distinct.onScalar(new Integer[]{1, 2, 3}), equalTo(new Integer[]{1, 2, 3}));
+        assertThat(distinct.one(new Integer[]{1, 2, 3}), equalTo(new Integer[]{1, 2, 3}));
     }
 
     @Test
     public void canRemoveDuplicates() {
-        assertThat(distinct.onScalar(new Integer[]{3, 1, 2, 5, 2, 1, 3, 7, 7}), equalTo(new Integer[]{3, 1, 2, 5, 7}));
+        assertThat(distinct.one(new Integer[]{3, 1, 2, 5, 2, 1, 3, 7, 7}), equalTo(new Integer[]{3, 1, 2, 5, 7}));
     }
 }
