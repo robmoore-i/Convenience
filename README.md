@@ -1,7 +1,6 @@
 # Convenience
 
-The powerful list functions from more powerful APL derivative languages, implemented in Java for my convenience.
-This includes higher order functions e.g. K's each adverbs, sliding windows, power over function rank as in J.
+Some list functions from more powerful APL derivative languages.
 
 ## Implemented
 
