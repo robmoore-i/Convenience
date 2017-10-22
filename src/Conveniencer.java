@@ -12,21 +12,42 @@ public class Conveniencer {
     }
 
     // NUMERIC MONADS //
-    public Monad<Double, Double> neg = monad((Function<Double, Double>) operand -> -operand);
-    public Monad<Double, Double> reciprocal = monad((Function<Double, Double>) operand -> 1 / operand);
+    public Monad<Double, Double> neg = monad(operand -> -operand);
+    public Monad<Double, Double> reciprocal = monad(operand -> 1 / operand);
     public Monad<Double, Double> sqrt = monad(Math::sqrt);
     public Monad<Double, Double> floor = monad(Math::floor);
     public Monad<Double, Double> ceiling = monad(Math::ceil);
     public Monad<Double, Double> log = monad(Math::log);
     public Monad<Double, Double> exp = monad(Math::exp);
-    public Monad<Double, Double> abs = monad((Function<Double, Double>) Math::abs);
-    public Monad<Double, Double> signum = monad((Function<Double, Double>) Math::signum);
+    public Monad<Double, Double> abs = monad(Math::abs);
+    public Monad<Double, Double> signum = monad(Math::signum);
+    public Monad<Double, Double> square = monad(operand -> operand * operand);
+    public Monad<Double, Double> cube = monad(operand -> operand * operand * operand);
 
     // NUMERIC DYADS //
     public Dyad<Double, Double, Double> add = dyad((BiFunction<Double, Double, Double>) (left, right) -> left + right);
     public Dyad<Double, Double, Double> times = dyad((BiFunction<Double, Double, Double>) (left, right) -> left * right);
     public Dyad<Double, Double, Double> minus = dyad((BiFunction<Double, Double, Double>) (left, right) -> left - right);
     public Dyad<Double, Double, Double> divide = dyad((BiFunction<Double, Double, Double>) (left, right) -> left / right);
+
+    // STATISTICAL MONADS //
+    public Monad<Double[], Double> mean = monad(doubles -> Arrays.stream(doubles).reduce((x, y) -> x + y).get() / doubles.length);
+
+    public Monad<Double[], Double> variance = monad(doubles -> {
+        Double mean = Arrays.stream(doubles).reduce((x, y) -> x + y).get() / doubles.length;
+        Double squaredMean = Arrays.stream(doubles).map(x -> x * x).reduce((x, y) -> x + y).get() / doubles.length;
+        return squaredMean - mean * mean;
+    });
+
+    public Monad<Double[], Double> stdDev = monad(doubles -> sqrt.one(variance.one(doubles)));
+
+    public Monad<Double[], Double> skewness = monad(doubles -> {
+        double EXCubed = Arrays.stream(doubles).map(x -> x * x * x).reduce((x, y) -> x + y).get() / doubles.length;
+        double threeMuSigmaSquared = 3 * mean.one(doubles) * square.one(stdDev.one(doubles));
+        double muCubed = cube.one(mean.one(doubles));
+        double sigmaCubed = cube.one(stdDev.one(doubles));
+        return (EXCubed - threeMuSigmaSquared - muCubed) / sigmaCubed;
+    });
 
     // ARRAY MONADS //
     public <T> Monad<T[], T[]> reverse() {
