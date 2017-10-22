@@ -6,7 +6,7 @@ public abstract class Monad<I, O> {
     public abstract O one(I right);
 
     public O[] each(I[] right) {
-        return (O[]) Arrays.stream(right).map(this::one).toArray();
+        return (O[]) eachStream(right).toArray();
     }
 
     public Stream<O> eachStream(I[] right) {

@@ -35,7 +35,7 @@ public class Conveniencer {
 
     public Monad<Double[], Double> variance = monad(doubles -> {
         Double mean = Arrays.stream(doubles).reduce((x, y) -> x + y).get() / doubles.length;
-        Double squaredMean = Arrays.stream(doubles).map(x -> x * x).reduce((x, y) -> x + y).get() / doubles.length;
+        Double squaredMean = square.eachStream(doubles).reduce((x, y) -> x + y).get() / doubles.length;
         return squaredMean - mean * mean;
     });
 
