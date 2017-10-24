@@ -1,3 +1,8 @@
+package unit;
+
+import convenience.Conveniencer;
+import convenience.Dyad;
+import convenience.LengthError;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;

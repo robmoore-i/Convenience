@@ -1,3 +1,6 @@
+package unit;
+
+import convenience.Conveniencer;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
