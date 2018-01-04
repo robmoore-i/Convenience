@@ -2,25 +2,26 @@ package convenience;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
 public abstract class Dyad<L, R, O> {
     public abstract O one_to_one(L left, R right);
 
-    public abstract O[] one_to_many(L left, R[] right);
+    public abstract Stream<O> one_to_many(L left, Stream<R> right);
 
-    public abstract O[] many_to_one(L[] left, R right);
+    public abstract Stream<O> many_to_one(Stream<L> left, R right);
 
-    public abstract O[] many_to_many(L[] left, R[] right) throws LengthError;
+    public abstract Stream<O> many_to_many(Stream<L> left, Stream<R> right) throws LengthError;
 
-    public O[] each_both(L[] left, R[] right) throws LengthError {
+    public Stream<O> each_both(Object[] left, Object[] right) throws LengthError {
         if (left.length != right.length) {
             throw new LengthError();
         }
         Object[] result = new Object[left.length];
         for (int i = 0; i < left.length; i++) {
-            result[i] = one_to_one(left[i], right[i]);
+            result[i] = one_to_one((L) left[i], (R) right[i]);
         }
-        return (O[]) result;
+        return Arrays.stream(result).map(x -> (O) x);
     }
 
     public static <P, Q, R> Dyad<P, Q, R> fromOperator(BiFunction<P, Q, R> f) {
@@ -30,18 +31,18 @@ public abstract class Dyad<L, R, O> {
             }
 
             @Override
-            public R[] one_to_many(P left, Q[] right) {
-                return (R[]) Arrays.stream(right).map(operand -> f.apply(left, operand)).toArray();
+            public Stream<R> one_to_many(P left, Stream<Q> right) {
+                return right.map(operand -> f.apply(left, operand));
             }
 
             @Override
-            public R[] many_to_one(P[] left, Q right) {
-                return (R[]) Arrays.stream(left).map(operand -> f.apply(operand, right)).toArray();
+            public Stream<R> many_to_one(Stream<P> left, Q right) {
+                return left.map(operand -> f.apply(operand, right));
             }
 
             @Override
-            public R[] many_to_many(P[] left, Q[] right) throws LengthError {
-                return each_both(left, right);
+            public Stream<R> many_to_many(Stream<P> left, Stream<Q> right) throws LengthError {
+                return each_both(left.toArray(), right.toArray());
             }
         };
     }

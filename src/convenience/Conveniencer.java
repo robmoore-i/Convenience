@@ -3,6 +3,7 @@ package convenience;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class Conveniencer {
     public <I, O> Monad<I, O> monad(Function<I, O> f) {
@@ -11,6 +12,19 @@ public class Conveniencer {
 
     public <L, R, O> Dyad<L, R, O> dyad(BiFunction<L, R, O> f) {
         return Dyad.fromOperator(f);
+    }
+
+    public Stream<Double> toDoubleStream(Object[] rubbish) {
+        return Arrays.stream(rubbish).map(x -> (Double) x);
+    }
+
+    public Double[] toDoubleArray(Stream<Double> doubleStream) {
+        Object[] objects = doubleStream.toArray();
+        Double[] doubles = new Double[objects.length];
+        for (int i = 0; i < objects.length; i++) {
+            doubles[i] = (Double) objects[i];
+        }
+        return doubles;
     }
 
     // NUMERIC MONADS //
@@ -26,6 +40,10 @@ public class Conveniencer {
     public Monad<Double, Double> square = monad(operand -> operand * operand);
     public Monad<Double, Double> cube = monad(operand -> operand * operand * operand);
 
+    public double sum(Stream<Double> doubles) {
+        return doubles.reduce((x, y) -> x + y).get();
+    }
+
     // NUMERIC DYADS //
     public Dyad<Double, Double, Double> add = dyad((BiFunction<Double, Double, Double>) (left, right) -> left + right);
     public Dyad<Double, Double, Double> times = dyad((BiFunction<Double, Double, Double>) (left, right) -> left * right);
@@ -33,18 +51,14 @@ public class Conveniencer {
     public Dyad<Double, Double, Double> divide = dyad((BiFunction<Double, Double, Double>) (left, right) -> left / right);
 
     // STATISTICAL MONADS //
-    public Monad<Double[], Double> mean = monad(doubles -> Arrays.stream(doubles).reduce((x, y) -> x + y).get() / doubles.length);
+    public Monad<Double[], Double> mean = monad(doubles -> sum(toDoubleStream(doubles)) / (double) doubles.length);
 
-    public Monad<Double[], Double> variance = monad(doubles -> {
-        Double mean = Arrays.stream(doubles).reduce((x, y) -> x + y).get() / doubles.length;
-        Double squaredMean = square.eachStream(doubles).reduce((x, y) -> x + y).get() / doubles.length;
-        return squaredMean - mean * mean;
-    });
+    public Monad<Double[], Double> variance = monad(doubles -> mean.one(toDoubleArray(square.each(toDoubleStream(doubles)))) - square.one(mean.one(doubles)));
 
     public Monad<Double[], Double> stdDev = monad(doubles -> sqrt.one(variance.one(doubles)));
 
     public Monad<Double[], Double> skewness = monad(doubles -> {
-        double EXCubed = Arrays.stream(doubles).map(x -> x * x * x).reduce((x, y) -> x + y).get() / doubles.length;
+        double EXCubed = sum(cube.each(toDoubleStream(doubles))) / doubles.length;
         double threeMuSigmaSquared = 3 * mean.one(doubles) * square.one(stdDev.one(doubles));
         double muCubed = cube.one(mean.one(doubles));
         double sigmaCubed = cube.one(stdDev.one(doubles));
